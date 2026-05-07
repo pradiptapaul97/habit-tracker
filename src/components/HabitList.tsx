@@ -1,4 +1,4 @@
-import { eachDayOfInterval, endOfWeek, format, isFuture, isSameDay, startOfWeek, subDays } from "date-fns";
+import { eachDayOfInterval, endOfWeek, format, isFuture, isSameDay, startOfWeek } from "date-fns";
 import { Button } from "./button";
 
 export type Habit = {
@@ -47,7 +47,7 @@ function HabitItem({ habit, removeHabit, toggleHabit }: HabitItemProps) {
             <div className="flex items-center justify-between">
                 <div className="flex gap-3 items-center">
                     <span className="font-medium">{habit.name}</span>
-                    <span className="text-sm text-amber-400"> 💥 {streak}</span>
+                    {streak !== 0 && <span className="text-sm text-amber-400"> 💥 {streak}</span>}
                 </div>
                 <Button onClick={() => removeHabit(habit.id)} className="text-sm" varient="ghost-destructive">Delete</Button>
             </div>
@@ -71,10 +71,11 @@ function HabitItem({ habit, removeHabit, toggleHabit }: HabitItemProps) {
 
 function getStreak(completions: Date[]) {
     let stricks = 0;
-    let date = new Date();
-    while (completions.some(c => isSameDay(c, date))) {
-        stricks++;
-        date = subDays(date, 1);
-    }
+    let today = new Date();
+    completions.forEach(c => {
+        if (isSameDay(c, today)) {
+            stricks++;
+        }
+    });
     return stricks;
 }
