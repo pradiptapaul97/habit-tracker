@@ -3,7 +3,7 @@ import { Button } from "./Button";
 import { useHabits, type Habit } from "../context/useHabits";
 
 
-export function HabitList() {
+export function HabitList({ visibleDates }: { visibleDates: Date[] }) {
     const { habits } = useHabits()
     if (habits.length === 0) {
         return (
@@ -13,24 +13,20 @@ export function HabitList() {
     return (
         <div className="flex flex-col gap-3">
             {habits.map(habit => (
-                <HabitItem key={habit.id} habit={habit} />
+                <HabitItem key={habit.id} habit={habit} visibleDates={visibleDates} />
             ))}
         </div>
     )
 }
 
 type HabitItemProps = {
-    habit: Habit
+    habit: Habit;
+    visibleDates: Date[];
 }
 
-function HabitItem({ habit }: HabitItemProps) {
+function HabitItem({ habit, visibleDates }: HabitItemProps) {
 
     const { removeHabit, toggleHabit } = useHabits()
-
-    const visibleDates = eachDayOfInterval({
-        start: startOfWeek(new Date(), { weekStartsOn: 1 }),
-        end: endOfWeek(new Date(), { weekStartsOn: 1 })
-    })
 
     const streak = getStreak(habit.completions);
 
