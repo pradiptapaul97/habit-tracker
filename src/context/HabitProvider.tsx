@@ -1,24 +1,11 @@
 import { isSameDay } from "date-fns";
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import { HabitContext, type Habit } from "./useHabits";
 
-export type Habit = {
-    id: number;
-    name: string;
-    completions: Date[];
-}
-
-type Context = {
-    habits: Habit[];
-    addHabit: (name: string) => void;
-    removeHabit: (id: number) => void;
-    toggleHabit: (id: number, date: Date) => void;
-}
 
 type HabitProviderProps = {
     children: ReactNode
 }
-
-export const HabitContext = createContext<Context | null>(null);
 
 export function HabitProvider({ children }: HabitProviderProps) {
 
@@ -54,12 +41,4 @@ export function HabitProvider({ children }: HabitProviderProps) {
             {children}
         </HabitContext>
     )
-}
-
-export function useHabits() {
-    const context = useContext(HabitContext);
-    if (context == null) {
-        throw new Error("Null context");
-    }
-    return context;
 }
