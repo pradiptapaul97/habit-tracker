@@ -1,4 +1,4 @@
-import { format, isFuture, isSameDay } from "date-fns";
+import { format, isFuture, isSameDay, subDays } from "date-fns";
 import { Button } from "./Button";
 import { useHabits, type Habit } from "../context/useHabits";
 
@@ -58,12 +58,13 @@ function HabitItem({ habit, visibleDates }: HabitItemProps) {
 }
 
 function getStreak(completions: Date[]) {
-    let stricks = 0;
-    let today = new Date();
-    completions.forEach(c => {
-        if (isSameDay(c, today)) {
-            stricks++;
-        }
-    });
-    return stricks;
+    let streak = 0
+    let date = new Date()
+
+    while (completions.some(c => isSameDay(c, date))) {
+        streak++
+        date = subDays(date, 1)
+    }
+
+    return streak
 }
