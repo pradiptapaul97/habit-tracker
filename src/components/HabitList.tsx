@@ -1,18 +1,10 @@
 import { eachDayOfInterval, endOfWeek, format, isFuture, isSameDay, startOfWeek } from "date-fns";
 import { Button } from "./Button";
+import { useHabits, type Habit } from "../context/HabitProvider";
 
-export type Habit = {
-    id: number;
-    name: string;
-    completions: Date[];
-}
 
-type HabitListProps = {
-    habits: Habit[];
-    removeHabit: (id: number) => void;
-    toggleHabit: (id: number, date: Date) => void;
-}
-export function HabitList({ habits, removeHabit, toggleHabit }: HabitListProps) {
+export function HabitList() {
+    const { habits } = useHabits()
     if (habits.length === 0) {
         return (
             <p className="text-center text-zinc-500 py-12">No habits found. Add one to get started!</p>
@@ -21,7 +13,7 @@ export function HabitList({ habits, removeHabit, toggleHabit }: HabitListProps) 
     return (
         <div className="flex flex-col gap-3">
             {habits.map(habit => (
-                <HabitItem key={habit.id} habit={habit} removeHabit={removeHabit} toggleHabit={toggleHabit} />
+                <HabitItem key={habit.id} habit={habit} />
             ))}
         </div>
     )
@@ -29,11 +21,11 @@ export function HabitList({ habits, removeHabit, toggleHabit }: HabitListProps) 
 
 type HabitItemProps = {
     habit: Habit
-    removeHabit: (id: number) => void;
-    toggleHabit: (id: number, date: Date) => void;
 }
 
-function HabitItem({ habit, removeHabit, toggleHabit }: HabitItemProps) {
+function HabitItem({ habit }: HabitItemProps) {
+
+    const { removeHabit, toggleHabit } = useHabits()
 
     const visibleDates = eachDayOfInterval({
         start: startOfWeek(new Date(), { weekStartsOn: 1 }),
