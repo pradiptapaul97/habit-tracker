@@ -1,5 +1,5 @@
 import { eachDayOfInterval, endOfWeek, format, isFuture, isSameDay, startOfWeek } from "date-fns";
-import { Button } from "./button";
+import { Button } from "./Button";
 
 export type Habit = {
     id: number;

@@ -1,5 +1,5 @@
 import { useState, type SubmitEvent } from "react";
-import { Button } from "./button";
+import { Button } from "./Button";
 
 
 type HabitFormProps = {

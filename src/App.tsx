@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { HabitForm } from "./components/HabitForm"
 import { HabitList, type Habit } from "./components/HabitList"
-import { Header } from "./components/header"
+import { Header } from "./components/Header"
 import { isSameDay } from "date-fns";
 
 function App() {
